@@ -1,5 +1,11 @@
+import Header from "./components/Header/Header";
+
 function App() {
-  return <p className="bg-red-400 underline">a</p>;
+  return (
+    <div className="max-w-screen-xl text-base mx-auto px-8 bg-slate-200">
+      <Header />
+    </div>
+  );
 }
 
 export default App;
