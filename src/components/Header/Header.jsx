@@ -1,16 +1,45 @@
+import { useEffect, useRef, useState } from 'react';
+
 export default function Header() {
+  const catMenu = useRef(null);
+  const [open, setOpen] = useState(false);
+
+  const handleClickTopMenu = () => {
+    setOpen(!open);
+    console.log(open);
+  };
+
+  const handleClick = () => {
+    console.log('avc');
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!catMenu?.current?.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+  }, [catMenu]);
+
   return (
-    <header className="py-6 mx-10 ">
-      <nav className="flex flex-row justify-between items-center">
-        <div className="logo basis-2/6 text-center text-xl font-semibold cursor-pointer">
-          Coffee Style.
-        </div>
-        <ul className="basis-3/6 flex justify-end gap-8 uppercase text-sm items-center font-medium text-gray-500">
+    <header className="p-6 mx-auto">
+      <nav className="flex font-Karla flex-row justify-between items-center relative">
+        <div className="logo basis-2/6 text-center text-xl font-semibold cursor-pointer">Coffee Style.</div>
+        <ul
+          className={`"basis-3/6 ${
+            open ? 'ct-top-menu-expanded' : 'hidden'
+          } lg:flex lg:justify-end lg:gap-8 uppercase text-sm items-center font-medium text-gray-500"`}
+        >
           <li className="ct-top-menu-items">
-            <a href="#">Home</a>
+            <a href="#" onClick={handleClick}>
+              Home
+            </a>
           </li>
           <li className="ct-top-menu-items">
-            <a href="#">Products</a>
+            <a href="#" onClick={handleClick}>
+              Products
+            </a>
           </li>
           <li className="ct-top-menu-items">
             <a href="#">Blog</a>
@@ -23,7 +52,7 @@ export default function Header() {
           </li>
         </ul>
 
-        <ul className="basis-1/6 flex justify-start items-center ml-16 uppercase text-sm text-gray-500 font-medium">
+        <ul className="basis-3/6 flex justify-end lg:justify-start items-center ml-16 uppercase text-sm text-gray-500 font-medium">
           <li className="ct-top-menu-items">
             <a href="#" className="flex justify-center">
               <svg
@@ -42,12 +71,29 @@ export default function Header() {
               </svg>
 
               <span className="mx-2">Cart</span>
-              <span className="ct-badge-circle bg-orange-400 text-white">
-                10
-              </span>
+              <span className="ct-badge-circle bg-orange-400 text-white">10</span>
             </a>
           </li>
         </ul>
+
+        <div className="basis-1/6 lg:hidden flex items-center cursor-pointer px sm:px-4">
+          <svg
+            ref={catMenu}
+            onClick={handleClickTopMenu}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="ct-icon"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+            />
+          </svg>
+        </div>
       </nav>
     </header>
   );
